@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Build outputs (upload the exe files to GitHub Releases instead)
+build/
+dist/
+
+# Local test and temporary files
+tests/_tmp/
+_test*/
+_install_test/
+_runtime_probe/
+*.lrc
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
