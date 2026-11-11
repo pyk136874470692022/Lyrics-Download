@@ -153,60 +153,6 @@ Lyrics-Download/
 
 程序本身不联网下载可执行文件，也不修改系统设置；部分安全软件可能对 PyInstaller/Inno Setup 打包的程序误报，可加入信任。
 
-## 发布与更新到 GitHub
-
-仓库地址：https://github.com/pyk136874470692022/Lyrics-Download
-
-仓库只提交源码、测试和构建脚本，`dist/` 已在 `.gitignore` 中排除。构建产物作为 **GitHub Release** 附件上传，不提交进 Git 历史。
-
-> 后续请直接在 `Lyrics-Download` 仓库目录中修改，不要同时改旧的 `lyrics_fetcher` 备份，避免两份代码不一致。
-
-### 修改 README 或其他文件
-
-```powershell
-cd C:\Users\1.hacker\Desktop\dsh\Lyrics-Download
-git status
-git diff
-git add README.md
-git commit -m "docs: update README"
-git push
-```
-
-修改多个文件时可以用 `git add .`，但提交前先看 `git status`，确认没有把 `dist/`、`build/`、`_MEI*` 或测试歌词加进去。
-
-### 发布新版本
-
-1. 修改源码，并同步更新 `__init__.py`、`version_info.txt`、`installer.iss` 中的版本号。
-2. 在 `CHANGELOG.md` 顶部增加新版本说明，更新 README 顶部的 Version 徽章和“下载”表格中的附件名。
-3. 重新打包：
-
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File build.ps1
-   ```
-
-4. 提交源码并推送：
-
-   ```powershell
-   git add .
-   git commit -m "release: v1.0.3"
-   git push
-   ```
-
-5. 创建并推送标签：
-
-   ```powershell
-   git tag -a v1.0.3 -m "歌词下载器 v1.0.3"
-   git push origin v1.0.3
-   ```
-
-6. 打开仓库的 **Releases → Draft a new release**，选择刚推送的标签，填写标题和更新说明，上传附件后发布。
-
-GitHub Release 附件建议用英文名，避免上传接口把中文名变成 `default.exe`：
-
-```text
-dist\歌词下载器.exe          → LyricsFetcher-1.0.3.exe
-dist\歌词下载器安装包.exe    → LyricsFetcher-Setup-1.0.3.exe
-```
 
 ## 许可证
 
