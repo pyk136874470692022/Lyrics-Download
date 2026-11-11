@@ -22,15 +22,26 @@
 - 搜索期间有状态提示；接口失败、歌词为空、保存失败都会给出中文提示
 - 支持键盘操作：`Enter` 搜索、`F5` 重新搜索、`Ctrl+F` 聚焦搜索框、`Ctrl+1/2/3` 切换平台
 
+## 下载
+
+前往 [Releases](https://github.com/pyk136874470692022/Lyrics-Download/releases/latest) 下载：
+
+| 文件 | 用途 |
+|---|---|
+| `LyricsFetcher-Setup-1.0.2.exe` | 推荐，当前用户安装包，不需要管理员权限 |
+| `LyricsFetcher-1.0.2.exe` | 单文件绿色版，复制一个文件即可运行 |
+
+> GitHub 上的附件使用英文文件名；本机 `dist\` 中的构建产物仍是中文名，内容相同。
+
 ## 直接使用
 
-推荐运行安装包 `dist\歌词下载器安装包.exe`。它只安装到当前用户目录，不需要管理员权限：
+推荐运行下载的安装包 `LyricsFetcher-Setup-*.exe`。它只安装到当前用户目录，不需要管理员权限：
 
 ```text
 %LOCALAPPDATA%\Programs\LyricsFetcher
 ```
 
-也可以直接运行单文件绿色版 `dist\歌词下载器.exe`。它只有这一个文件，可以单独复制到桌面或其他目录，不再需要 `_internal` 文件夹。
+也可以直接运行单文件绿色版 `LyricsFetcher-*.exe`。它只有这一个文件，可以单独复制到桌面或其他目录，不再需要 `_internal` 文件夹。
 
 1. 在顶部输入歌曲名或歌手名，按 `Enter` 或点击“搜索”。
 2. 程序只搜索当前选中的平台；点击标签切换平台后，再点“搜索”即可查另一个平台。
@@ -79,7 +90,7 @@ dist\歌词下载器安装包.exe           # 推荐分发的安装包
 ## 项目结构
 
 ```text
-lyrics_fetcher/
+Lyrics-Download/
 ├─ .gitattributes
 ├─ .gitignore
 ├─ LICENSE
@@ -142,25 +153,60 @@ lyrics_fetcher/
 
 程序本身不联网下载可执行文件，也不修改系统设置；部分安全软件可能对 PyInstaller/Inno Setup 打包的程序误报，可加入信任。
 
-## 发布到 GitHub
+## 发布与更新到 GitHub
 
-仓库只提交源码、测试和构建脚本，`dist/` 已在 `.gitignore` 中排除。发布时把以下两个文件作为 **GitHub Release** 附件上传，而不要直接提交进 Git 历史：
+仓库地址：https://github.com/pyk136874470692022/Lyrics-Download
 
-- `dist\歌词下载器.exe` —— 单文件绿色版
-- `dist\歌词下载器安装包.exe` —— 当前用户安装包
+仓库只提交源码、测试和构建脚本，`dist/` 已在 `.gitignore` 中排除。构建产物作为 **GitHub Release** 附件上传，不提交进 Git 历史。
 
-如果本机已安装 Git，可以在项目根目录执行：
+> 后续请直接在 `Lyrics-Download` 仓库目录中修改，不要同时改旧的 `lyrics_fetcher` 备份，避免两份代码不一致。
+
+### 修改 README 或其他文件
 
 ```powershell
-git init
-git add .
-git commit -m "release: v1.0.2"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
-git push -u origin main
+cd C:\Users\1.hacker\Desktop\dsh\Lyrics-Download
+git status
+git diff
+git add README.md
+git commit -m "docs: update README"
+git push
 ```
 
-然后在 GitHub 仓库的 **Releases → Draft a new release** 中创建 `v1.0.2`，上传上面两个 exe，并附上 [CHANGELOG.md](CHANGELOG.md) 中的更新说明。
+修改多个文件时可以用 `git add .`，但提交前先看 `git status`，确认没有把 `dist/`、`build/`、`_MEI*` 或测试歌词加进去。
+
+### 发布新版本
+
+1. 修改源码，并同步更新 `__init__.py`、`version_info.txt`、`installer.iss` 中的版本号。
+2. 在 `CHANGELOG.md` 顶部增加新版本说明，更新 README 顶部的 Version 徽章和“下载”表格中的附件名。
+3. 重新打包：
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File build.ps1
+   ```
+
+4. 提交源码并推送：
+
+   ```powershell
+   git add .
+   git commit -m "release: v1.0.3"
+   git push
+   ```
+
+5. 创建并推送标签：
+
+   ```powershell
+   git tag -a v1.0.3 -m "歌词下载器 v1.0.3"
+   git push origin v1.0.3
+   ```
+
+6. 打开仓库的 **Releases → Draft a new release**，选择刚推送的标签，填写标题和更新说明，上传附件后发布。
+
+GitHub Release 附件建议用英文名，避免上传接口把中文名变成 `default.exe`：
+
+```text
+dist\歌词下载器.exe          → LyricsFetcher-1.0.3.exe
+dist\歌词下载器安装包.exe    → LyricsFetcher-Setup-1.0.3.exe
+```
 
 ## 许可证
 
