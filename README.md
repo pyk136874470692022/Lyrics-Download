@@ -110,7 +110,6 @@ Lyrics-Download/
 │  └─ test_core.py
 ├─ tools/
 │  └─ make_icon.ps1        # 重新生成应用图标
-└─ dist/                   # 本地构建产物，已忽略，不上传 Git
 ```
 
 ## 接口说明
@@ -156,7 +155,7 @@ Lyrics-Download/
 
 ## 许可证
 
-本项目使用 [MIT License](LICENSE)。`LICENSE` 中的版权人写的是 `LyricsFetcher contributors`，你可以改成自己的名字。
+本项目使用 [MIT License](LICENSE)。
 
 ## 声明
 
